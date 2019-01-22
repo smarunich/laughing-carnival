@@ -6,7 +6,7 @@ for i in `seq $count`; do
   terraform state show aws_instance.ctrl[$idx] | grep 'public_ip ' | awk '{print $3}'
   ((idx++))
 done
-let count=`grep server_count terraform.tfvars | awk '{print $3}'`
+let count=`grep server_count terraform.tfvars | awk '{print $3}'` 
 idx=0
 for i in `seq $count`; do
   echo -n "Server$i: "
