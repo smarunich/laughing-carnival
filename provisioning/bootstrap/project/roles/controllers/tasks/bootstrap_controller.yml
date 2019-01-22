@@ -163,7 +163,7 @@
   register: dns_vip
 
 - set_fact:
-    student_domain: "{{ inventory_hostname | regex_replace('controller','apps') }}"
+    student_domain: "{{ inventory_hostname | regex_replace('controller.','') }}"
     dns_vs_ip: "{{ dns_vip['obj']['results'][0]['floating_ip']['addr'] }}"
 
 - group_by:

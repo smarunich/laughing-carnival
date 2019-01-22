@@ -10,9 +10,9 @@
     - avinetworks.avisdk
     - controllers
 
-- hosts: servers
-  roles:
-  - servers
+#- hosts: servers
+#  roles:
+#  - servers
 
 - hosts: jumpbox
   roles:
