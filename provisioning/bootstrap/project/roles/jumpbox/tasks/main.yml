@@ -20,9 +20,12 @@
   - openshift-ansible 
   - atomic
 - systemd:
-    name: docker
+    name: "{{ item }}"
     enabled: yes
     state: restarted
+  loop:
+  - docker
+  - dnsmasq
 - docker_image:
     name: "{{ item }}"
     state: present
@@ -44,3 +47,17 @@
     restart: yes
     detach: true
     state: started
+- lineinfile:
+    dest: /opt/bootstrap/openshift-ansible/dnsmasq-snippet.conf
+    insertafter: EOF
+    line: server=/lab/{{hostvars['jumpbox.lab']['privateIp']}} 
+
+- template:
+    src: ocp_inventory.j2
+    dest: /opt/bootstrap/openshift-ansible/ocp_inventory_{{hostvars[item]['student_domain']}}
+    owner: root
+    group: wheel
+    mode: 0644
+  when: 
+  - hostvars[item]['Lab_Group'] == "controllers"
+  with_inventory_hostnames: all
