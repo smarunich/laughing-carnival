@@ -1,4 +1,15 @@
 ---
+- command: subscription-manager repos --enable={{ item }}
+  loop:
+  - rhel-7-server-rpms
+  - rhel-7-server-extras-rpms  
+  - rhel-7-server-ose-3.11-rpms
+  - rhel-7-server-ansible-2.6-rpms 
+  - rhel-7-fast-datapath-rpms
+- pip: 
+    name: "{{ item }}"
+  loop:
+  - ansible==2.6.12
 - yum:
     name: "{{ item }}"
     state: present
@@ -6,6 +17,8 @@
   - docker
   - dnsmasq
   - bind-utils
+  - openshift-ansible 
+  - atomic
 - systemd:
     name: docker
     enabled: yes
@@ -19,6 +32,7 @@
     dest: /etc/bashrc
     insertafter: EOF
     line: alias dig="docker run --net=host -it avinetworks/avitools:18.2.1 dig"
+
 - docker_container:
     name: avitools
     hostname: avitools

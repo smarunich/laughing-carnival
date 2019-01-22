@@ -4,11 +4,37 @@
     regexp: ''
     insertafter: EOF
     line: proxy=http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128
+- command: subscription-manager config --server.proxy_hostname={{ hostvars['jumpbox.student.lab']['privateIp'] }} --server.proxy_port=3128
+- lineinfile:
+    dest: /etc/rhsm/rhsm.conf  
+    regexp: "{{ item.regexp }}"
+    insertafter: EOF
+    line: "{{ item.line }}" 
+  loop:
+  - { regexp: '^proxy_hostname', line: "proxy_hostname={{ hostvars['jumpbox.student.lab']['privateIp'] }}" } 
+  - { regexp: '^proxy_port', line: 'proxy_port=3128' }
+- command: subscription-manager repos --enable={{ item }}
+  loop:
+  - rhel-7-server-rpms
+  - rhel-7-server-extras-rpms  
+  - rhel-7-server-ose-3.11-rpms
+  - rhel-7-server-ansible-2.6-rpms 
+  - rhel-7-fast-datapath-rpms
 - yum:
     name: "{{ item }}"
     state: present
   with_items:
   - docker
+  - wget
+  - net-tools 
+  - bind-utils
+  - yum-utils
+  - iptables-services
+  - bridge-utils 
+  - bash-completion
+  - kexec-tools
+  - sos
+  - psacct    
 - pip:
     name: "{{ item }}"
     extra_args: --proxy {{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128
