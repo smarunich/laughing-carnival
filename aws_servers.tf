@@ -6,12 +6,11 @@ data "template_file" "server_userdata" {
   template = "${file("${path.module}/userdata/server.userdata")}"
 
   vars {
-    hostname = "${var.id}-server${count.index + 1}"
+    hostname = "server${count.index + 1}.lab"
     jump_ip  = "${aws_instance.jump.private_ip}"
     number   = "${count.index + 1}"
   }
 }
-
 resource "aws_instance" "server" {
   count                  = "${var.server_count}"
   ami                    = "${lookup(var.ami_centos, var.aws_region)}"
@@ -20,13 +19,13 @@ resource "aws_instance" "server" {
   key_name               = "${var.key}"
   vpc_security_group_ids = ["${aws_security_group.jumpsg.id}"]
   subnet_id              = "${aws_subnet.privnet.id}"
-  private_ip             = "${format("%s%02d", var.base_ip, count.index + 1)}"
+  private_ip             = "${format("%s%02d", cidrhost(aws_subnet.privnet.cidr_block,1) , count.index + 1)}"
   source_dest_check      = false
   user_data              = "${data.template_file.server_userdata.*.rendered[count.index]}"
   depends_on             = ["aws_instance.jump"]
 
   tags {
-    Name  = "${var.id}-server${count.index + 1}"
+    Name  = "server${count.index + 1}"
     Owner = "${var.owner}"
     Lab_Group = "servers"
     Lab_Name = "server${count.index + 1}.lab"
