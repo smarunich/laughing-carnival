@@ -26,7 +26,7 @@ resource "aws_instance" "master" {
   depends_on             = ["aws_instance.jump"]
 
   tags {
-    Name  = "master${count.index + 1}"
+    Name = "master${(count.index / var.student_count % var.master_count) + 1}.student${count.index % var.student_count + 1}.lab"
     Owner = "${var.owner}"
     Lab_Group = "servers"
     Lab_Name = "master${(count.index / var.student_count % var.master_count) + 1}.student${count.index % var.student_count + 1}.lab"
