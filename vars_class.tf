@@ -20,12 +20,12 @@ variable "student_count" {
 
 variable "server_count" {
   description = "The class size. Students get a shared servers"
-  default     = 4
+  default     = 3
 }
 
-variable "dns_server_count" {
+variable "master_count" {
   description = "The class size. Students get a shared servers"
-  default     = 2
+  default     = 1
 }
 
 variable "id" {

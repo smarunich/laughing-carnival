@@ -59,6 +59,13 @@ resource "aws_security_group" "jumpsg" {
   }
 
   ingress {
+    from_port   = 8443
+    to_port     = 8443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  ingress {
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"

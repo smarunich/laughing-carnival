@@ -66,7 +66,12 @@ resource "aws_route_table" "pubrt" {
   }
 }
 
-resource "aws_route_table_association" "pubrta" {
+resource "aws_route_table_association" "pubrta1" {
   subnet_id      = "${aws_subnet.pubnet.id}"
   route_table_id = "${aws_route_table.pubrt.id}"
 }
+resource "aws_route_table_association" "pubrta2" {
+  subnet_id      = "${aws_subnet.privnet.id}"
+  route_table_id = "${aws_route_table.pubrt.id}"
+}
+

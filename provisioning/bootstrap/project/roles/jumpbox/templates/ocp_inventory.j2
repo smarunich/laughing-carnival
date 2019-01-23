@@ -14,31 +14,29 @@ ansible_ssh_user=root
 
 openshift_deployment_type=openshift-enterprise
 #oreg_url=example.com/openshift3/ose-${component}:${version}
-openshift_master_default_subdomain=apps.{{ hostvars[item]['student_domain'] }} 
-# MUST BE FILLED OUT
-#oreg_auth_user=
-#oreg_auth_password=
+openshift_master_default_subdomain=apps.{{ hostvars[item]['student_domain'] }}
+oreg_auth_user={{ hostvars['jumpbox.student.lab']['Lab_ocp_oreg_auth_user'] }}
+oreg_auth_password={{ hostvars['jumpbox.student.lab']['Lab_ocp_oreg_auth_password'] }}
 openshift_examples_modify_imagestreams=true
 openshift_disable_check=disk_availability,docker_storage
 openshift_node_dnsmasq_additional_config_file=/opt/bootstrap/openshift-ansible/dnsmasq-snippet.conf
-openshift_http_proxy=http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128 
-openshift_https_proxy=http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128 
+openshift_http_proxy=http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128
+openshift_https_proxy=http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128
 
 # uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 # openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/opt/openshift-ansible/htpasswd'}]
 # host group for masters
 [masters]
-server1.{{ hostvars[item]['student_domain'] }}
+master1.{{ hostvars[item]['student_domain'] }}
 
 # host group for etcd
 [etcd]
-server1.{{ hostvars[item]['student_domain'] }}
+master1.{{ hostvars[item]['student_domain'] }}
 
 # host group for nodes, includes region info
 [nodes]
-server1.{{ hostvars[item]['student_domain'] }} openshift_node_group_name='node-config-master'
-server2.{{ hostvars[item]['student_domain'] }} openshift_node_group_name='node-config-infra' openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-server3.{{hostvars[item]['student_domain']}} openshift_node_group_name='node-config-infra' openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-server4.{{hostvars[item]['student_domain']}} openshift_node_group_name='node-config-compute' openshift_node_labels="{'region': 'primary', 'zone': 'default'}"
-
+master1.{{ hostvars[item]['student_domain'] }} openshift_node_group_name='node-config-master'
+server1.{{ hostvars[item]['student_domain'] }} openshift_node_group_name='node-config-infra' openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+server2.{{hostvars[item]['student_domain']}} openshift_node_group_name='node-config-infra' openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+server3.{{hostvars[item]['student_domain']}} openshift_node_group_name='node-config-compute' openshift_node_labels="{'region': 'primary', 'zone': 'default'}"

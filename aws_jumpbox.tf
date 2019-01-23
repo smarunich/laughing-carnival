@@ -37,6 +37,8 @@ resource "aws_instance" "jump" {
     Lab_vpc_id = "${aws_vpc.OCP_vpc.id}"
     Lab_avi_default_password = "${var.avi_default_password}"
     Lab_avi_admin_password = "${var.avi_admin_password}"
+    Lab_ocp_oreg_auth_user = "${var.ocp_oreg_auth_user}"
+    Lab_ocp_oreg_auth_password = "${var.ocp_oreg_auth_password}"
     Lab_avi_backup_admin_username = "${var.avi_backup_admin_username}"
     Lab_avi_backup_admin_password = "${var.avi_backup_admin_password}"
     Lab_avi_management_network = "${var.id}_management_network"
