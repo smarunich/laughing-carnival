@@ -1,0 +1,11 @@
+---
+- command: "{{ item }}"
+  loop:
+  - touch /etc/origin/master/htpasswd
+  - htpasswd -b /etc/origin/master/htpasswd aviadmin AviNetworks123!
+  - master-restart api
+  - master-restart controllers
+  - oc adm policy add-cluster-role-to-user cluster-admin aviadmin
+  when:
+  - inventory_hostname | search_value("master")
+  with_inventory_hostnames: all
