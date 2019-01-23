@@ -52,7 +52,15 @@
     dest: /opt/bootstrap/openshift-ansible/openshift-ansible-tmux.sh
     insertafter: EOF
     regexp: ^tmux new-window -t openshift-ansible:{{ hostvars[item]['student_domain'].split('.')[0][-1] }} -n openshift-ansible-{{ hostvars[item]['student_domain'] }} "ansible-playbook -i /opt/bootstrap/openshift-ansible/ocp_inventory_{{ hostvars[item]['student_domain'] }} /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml; bash -i"
-    line: ^tmux new-window -t openshift-ansible:{{ hostvars[item]['student_domain'].split('.')[0][-1] }} -n openshift-ansible-{{ hostvars[item]['student_domain'] }} "ansible-playbook -i /opt/bootstrap/openshift-ansible/ocp_inventory_{{ hostvars[item]['student_domain'] }} /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml; bash -i"
+    line: tmux new-window -t openshift-ansible:{{ hostvars[item]['student_domain'].split('.')[0][-1] }} -n openshift-ansible-{{ hostvars[item]['student_domain'] }} "ansible-playbook -i /opt/bootstrap/openshift-ansible/ocp_inventory_{{ hostvars[item]['student_domain'] }} /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml; bash -i"
+  when:
+  - hostvars[item]['Lab_Group'] == "controllers"
+  with_inventory_hostnames: all
+- lineinfile:
+    dest: /opt/bootstrap/openshift-ansible/openshift-ansible-tmux.sh
+    insertafter: EOF
+    regexp: ^#tmux new-window -t openshift-ansible:{{ hostvars[item]['student_domain'].split('.')[0][-1] }} -n openshift-ansible-{{ hostvars[item]['student_domain'] }} "ansible-playbook -i /opt/bootstrap/openshift-ansible/ocp_inventory_{{ hostvars[item]['student_domain'] }} /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml; bash -i"
+    line: #tmux new-window -t openshift-ansible:{{ hostvars[item]['student_domain'].split('.')[0][-1] }} -n openshift-ansible-{{ hostvars[item]['student_domain'] }} "ansible-playbook -i /opt/bootstrap/openshift-ansible/ocp_inventory_{{ hostvars[item]['student_domain'] }} /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml; bash -i"
   when:
   - hostvars[item]['Lab_Group'] == "controllers"
   with_inventory_hostnames: all
