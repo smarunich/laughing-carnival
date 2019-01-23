@@ -52,7 +52,7 @@
     avi_credentials: "{{ avi_credentials }}"
     dns_configuration:
       server_list:
-        - addr: 8.8.8.8
+        - addr: "{{ hostvars['jumpbox.student.lab']['privateIp'] }}"
           type: V4
         - addr: 8.8.4.4
           type: V4
@@ -147,7 +147,7 @@
       virtualservice:
         - name: "{{ 'vs_app_' + hostvars['jumpbox.student.lab']['region'] }}" 
           cloud_ref: '/api/cloud?name=AWS'
-          pool_ref: '/api/pool?name=app_pool'
+          #pool_ref: '/api/pool?name=app_pool'
           application_profile_ref: '/api/applicationprofile?name=System-HTTP' 
           services:
             - port: 80
@@ -159,12 +159,18 @@
   avi_api_session:
     avi_credentials: "{{ avi_credentials }}"
     http_method: get
-    path: "virtualservice?include_name&services.0.port=53&fields=vip.floating_ip.addr"
+    #floating ip
+    #path: "virtualservice?include_name&services.0.port=53&fields=vip.floating_ip.addr"
+    #vip ip
+    path: "virtualservice?include_name&services.0.port=53&fields=vip.ip_address.addr"
   register: dns_vip
 
 - set_fact:
     student_domain: "{{ inventory_hostname | regex_replace('controller.','') }}"
-    dns_vs_ip: "{{ dns_vip['obj']['results'][0]['floating_ip']['addr'] }}"
+    #floating ip
+    #dns_vs_ip: "{{ dns_vip['obj']['results'][0]['floating_ip']['addr'] }}"
+    #vip ip
+    dns_vs_ip: "{{ dns_vip['obj']['results'][0]['ip_address']['addr'] }}"
 
 - group_by:
     key: "{{ dns_vs_ip }}"
