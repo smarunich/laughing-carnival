@@ -68,4 +68,5 @@
     dest: /opt/bootstrap/openshift-ansible/openshift-ansible-tmux.sh
     insertafter: EOF
     regexp: ^#ansible-playbook /opt/bootstrap/project/post_install_ocp.yml
-    line: \#ansible-playbook /opt/bootstrap/project/post_install_ocp.yml
+    line: '#ansible-playbook /opt/bootstrap/project/post_install_ocp.yml'
+

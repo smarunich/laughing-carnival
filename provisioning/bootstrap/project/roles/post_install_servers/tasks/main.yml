@@ -7,5 +7,4 @@
   - master-restart controllers
   - oc adm policy add-cluster-role-to-user cluster-admin aviadmin
   when:
-  - inventory_hostname | search_value("master")
-  with_inventory_hostnames: all
+  - inventory_hostname is search("master")
