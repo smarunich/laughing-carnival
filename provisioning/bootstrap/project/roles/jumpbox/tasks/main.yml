@@ -33,6 +33,10 @@
   loop:
   - docker
   - dnsmasq
+- lineinfile:
+    dest: /etc/resolv.conf
+    insertbefore: BOF
+    line: nameserver 127.0.0.1
 - file:
     path: /opt/bootstrap/openshift-ansible
     state: directory
