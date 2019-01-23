@@ -2,15 +2,29 @@
 let count=`grep student_count terraform.tfvars | awk '{print $3}'`
 idx=0
 for i in `seq $count`; do
-  echo -n "Student$i: "
+  echo -n "Student$i Controller Public IP: "
   terraform state show aws_instance.ctrl[$idx] | grep 'public_ip ' | awk '{print $3}'
   ((idx++))
 done
-let count=`grep server_count terraform.tfvars | awk '{print $3}'` 
+let count=`grep student_count terraform.tfvars | awk '{print $3}'`
 idx=0
 for i in `seq $count`; do
-  echo -n "Server$i: "
-  terraform state show aws_instance.server[$idx] | grep 'private_ip ' | awk '{print $3}'
+  echo -n "Student$i Controller Private IP: "
+  terraform state show aws_instance.ctrl[$idx] | grep 'private_ip ' | awk '{print $3}'
+  ((idx++))
+done
+let count=`grep student_count terraform.tfvars | awk '{print $3}'` 
+idx=0
+for i in `seq $count`; do
+  echo -n "Student$i Master Public IP: "
+  terraform state show aws_instance.master[$idx] | grep 'public_ip ' | awk '{print $3}'
+  ((idx++))
+done
+let count=`grep student_count terraform.tfvars | awk '{print $3}'` 
+idx=0
+for i in `seq $count`; do
+  echo -n "Student$i Master Private IP: "
+  terraform state show aws_instance.master[$idx] | grep 'private_ip ' | awk '{print $3}'
   ((idx++))
 done
 echo -n "Jumpbox: "
