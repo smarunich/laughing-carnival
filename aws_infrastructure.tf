@@ -27,7 +27,7 @@ resource "aws_subnet" "privnet" {
   availability_zone = "${lookup(var.aws_az, var.aws_region)}"
 
   tags {
-    Name  = "${var.id}_apps_network"
+    Name  = "${var.id}_app_network"
     Owner = "${var.owner}"
   }
 }
