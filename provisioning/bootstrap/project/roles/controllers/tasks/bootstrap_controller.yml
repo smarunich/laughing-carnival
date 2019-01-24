@@ -166,16 +166,19 @@
   register: dns_vip
 
 - set_fact:
+    student_id: "{{ inventory_hostname | regex_replace('^controller.student(\\d+).lab', '\\1') }}"
     student_domain: "{{ inventory_hostname | regex_replace('controller.','') }}"
     #floating ip
     #dns_vs_ip: "{{ dns_vip['obj']['results'][0]['floating_ip']['addr'] }}"
     #vip ip
     dns_vs_ip: "{{ dns_vip['obj']['results'][0]['ip_address']['addr'] }}"
-
+   
 - group_by:
-    key: "{{ dns_vs_ip }}"
+    key: "{{ student_id }}"
 - group_by:
     key: "{{ student_domain }}"
+- group_by:
+    key: "{{ dns_vs_ip }}"
 
 - debug:
     var: hostvars[inventory_hostname]['dns_vs_ip']
