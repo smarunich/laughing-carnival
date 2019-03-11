@@ -5,6 +5,7 @@
     insertafter: EOF
     line: proxy=http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128
 - command: subscription-manager config --server.proxy_hostname={{ hostvars['jumpbox.student.lab']['privateIp'] }} --server.proxy_port=3128
+#- command: subscription-manager register --force --org=12159956 --activationkey=openshift_key
 - command: subscription-manager register --force --username={{ hostvars['jumpbox.student.lab']['Lab_ocp_oreg_auth_user'] }} --password={{ hostvars['jumpbox.student.lab']['Lab_ocp_oreg_auth_password'] }}
   ignore_errors: true
 - command: subscription-manager attach --pool={{ hostvars['jumpbox.student.lab']['Lab_ocp_rhsm_pool_id'] }}
