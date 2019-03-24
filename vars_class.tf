@@ -55,3 +55,14 @@ variable "key" {
   description = "AWS SSH keypair name"
   default     = "training-access"
 }
+
+variable "ocp_rhsm_org" {
+  description = "RedHat Subscription Manager Org"
+  default = "avi_ocp"
+}
+
+variable "ocp_rhsm_activationkey" {
+  description = "RedHat Subscription Manager OCP activation key"
+  default = "avi_ocpkey"
+}
+
