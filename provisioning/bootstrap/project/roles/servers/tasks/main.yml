@@ -1,5 +1,9 @@
 ---
 - lineinfile:
+    dest: /etc/resolv.conf
+    insertbefore: BOF
+    line: nameserver {{ hostvars['jumpbox.student.lab']['privateIp'] }}
+- lineinfile:
     dest: /etc/yum.conf
     regexp: ''
     insertafter: EOF
@@ -33,7 +37,6 @@
   - bind-utils
   - vim
   - tmux
-  - docker
   - wget
   - net-tools
   - yum-utils
@@ -45,27 +48,6 @@
   - psacct
   - openshift-ansible
   - atomic
-- pip:
-    name: "{{ item }}"
-    extra_args: --proxy {{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128
-  with_items:
-  - docker
-- lineinfile:
-    dest: /etc/sysconfig/docker
-    regexp: ''
-    insertafter: EOF
-    line: HTTP_PROXY="http://{{ hostvars['jumpbox.student.lab']['privateIp'] }}:3128"
-- systemd:
-    name: docker
-    enabled: yes
-    state: restarted
-- docker_image:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - bkimminich/juice-shop
-  - citizenstig/dvwa
-  - smarunich/avinetworks-demo
 - file:
     path: /opt/bootstrap/openshift-ansible
     state: directory
