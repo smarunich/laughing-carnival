@@ -6,7 +6,7 @@ data "template_file" "server_userdata" {
   template = file("${path.module}/userdata/server.userdata")
 
   vars = {
-    hostname = "server${count.index / var.student_count % var.server_count + 1}.student${count.index % var.student_count + 1}.lab"
+    hostname = "server${floor(count.index / var.student_count % var.server_count + 1)}.student${count.index % var.student_count + 1}.lab"
     jump_ip  = aws_instance.jump.private_ip
     number   = count.index + 1
   }
@@ -27,10 +27,10 @@ resource "aws_instance" "server" {
   depends_on        = [aws_instance.jump]
 
   tags = {
-    Name         = "server${count.index / var.student_count % var.server_count + 1}.student${count.index % var.student_count + 1}.lab"
+    Name         = "server${floor(count.index / var.student_count % var.server_count + 1)}.student${count.index % var.student_count + 1}.lab"
     Owner        = var.owner
     Lab_Group    = "servers"
-    Lab_Name     = "server${count.index / var.student_count % var.server_count + 1}.student${count.index % var.student_count + 1}.lab"
+    Lab_Name     = "server${floor(count.index / var.student_count % var.server_count + 1)}.student${count.index % var.student_count + 1}.lab"
     Lab_Timezone = var.lab_timezone
   }
 
