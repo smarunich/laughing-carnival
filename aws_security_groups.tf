@@ -8,9 +8,9 @@
 
 resource "aws_security_group" "ctrlsg" {
   description = "Allow incoming connections to the Avi GUI"
-  vpc_id      = "${aws_vpc.OCP_vpc.id}"
+  vpc_id      = aws_vpc.OCP_vpc.id
 
-  tags {
+  tags = {
     Name = "${var.id}_ctrlsg"
   }
 
@@ -39,7 +39,7 @@ resource "aws_security_group" "ctrlsg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["${var.vpc_cidr}"]
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {
@@ -52,9 +52,9 @@ resource "aws_security_group" "ctrlsg" {
 
 resource "aws_security_group" "jumpsg" {
   description = "Allow incoming connections to the lab jumpbox."
-  vpc_id      = "${aws_vpc.OCP_vpc.id}"
+  vpc_id      = aws_vpc.OCP_vpc.id
 
-  tags {
+  tags = {
     Name = "${var.id}_jumpsg"
   }
 
@@ -71,7 +71,7 @@ resource "aws_security_group" "jumpsg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     from_port   = 53
     to_port     = 53
@@ -90,7 +90,7 @@ resource "aws_security_group" "jumpsg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["${var.vpc_cidr}"]
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {
@@ -100,3 +100,4 @@ resource "aws_security_group" "jumpsg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+

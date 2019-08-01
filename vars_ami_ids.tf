@@ -3,13 +3,14 @@
 
 # aws ec2 describe-images --owners 139284885014 --filters Name=name,Values='Avi-Controller-17.2.8*' --region eu-west-2 | jq -r '.Images | sort_by(.CreationDate) | last(.[]).ImageId'
 variable "ami_avi_controller" {
-  type        = "map"
+  type        = map(string)
   description = "Avi AMI by region updated 07/01/19"
 
   default = {
-    eu-west-1 = "ami-072e0c55a6dc19cd1" #18.2.2
-    us-west-2 = "ami-0cc9be68abe0b4578" #18.2.3
-    #us-west-2 = "ami-0ef13f76789a1223b" #18.2.2
+    #eu-west-1 = "ami-072e0c55a6dc19cd1" #18.2.2
+    #us-west-2 = "ami-0cc9be68abe0b4578" #18.2.3
+    #us-west-2 = "ami-0b2865c36f36b7748" #18.2.4
+    us-west-2 = "ami-024c71edb93a06518" #18.2.5
   }
 }
 
@@ -18,7 +19,7 @@ variable "ami_avi_controller" {
 # NOTE
 # Prebuilt packer image is used in labs
 variable "ami_centos" {
-  type        = "map"
+  type        = map(string)
   description = "CentOS AMI by region updated 10/10/18"
 
   default = {
@@ -26,3 +27,4 @@ variable "ami_centos" {
     us-west-2 = "ami-01161bd085729d109"
   }
 }
+

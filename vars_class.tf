@@ -4,17 +4,38 @@
 # The following variables should be defined via a seperate mechanism to avoid distribution
 # For example the file terraform.tfvars
 
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
-variable "aws_region" {}
-variable "pkey" {}
-variable "avi_default_password" {}
-variable "avi_admin_password" {}
-variable "avi_backup_admin_username" {}
-variable "avi_backup_admin_password" {}
-variable "ocp_oreg_auth_user" {}
-variable "ocp_oreg_auth_password" {}
-variable "ocp_rhsm_pool_id" {}
+variable "aws_access_key" {
+}
+
+variable "aws_secret_key" {
+}
+
+variable "aws_region" {
+}
+
+variable "pkey" {
+}
+
+variable "avi_default_password" {
+}
+
+variable "avi_admin_password" {
+}
+
+variable "avi_backup_admin_username" {
+}
+
+variable "avi_backup_admin_password" {
+}
+
+variable "ocp_oreg_auth_user" {
+}
+
+variable "ocp_oreg_auth_password" {
+}
+
+variable "ocp_rhsm_pool_id" {
+}
 
 variable "student_count" {
   description = "The class size. Each student gets a controller"
@@ -46,7 +67,7 @@ variable "owner" {
 }
 
 variable "aws_az" {
-  type        = "map"
+  type        = map(string)
   description = "Control of placement of objects within the AWS Availability Zone"
 
   default = {
@@ -62,11 +83,11 @@ variable "key" {
 
 variable "ocp_rhsm_org" {
   description = "RedHat Subscription Manager Org"
-  default = "avi_ocp"
+  default     = "avi_ocp"
 }
 
 variable "ocp_rhsm_activationkey" {
   description = "RedHat Subscription Manager OCP activation key"
-  default = "avi_ocpkey"
+  default     = "avi_ocpkey"
 }
 
